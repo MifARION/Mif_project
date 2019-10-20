@@ -41,3 +41,4 @@ n=input("Введите текст - ")
 
 #print (dec(int(s),n))
 print (cipher(int(s),n))
+trututu
