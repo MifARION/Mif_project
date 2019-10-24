@@ -22,6 +22,12 @@ try:
 
 
     print(caesar(encrypt, key))
+    with open('godofwar.txt', 'r') as my_file:
+        data = ''.join(i for i in my_file.read())
+        finish = caesar(data, 3)
+        print(finish)
+        with open('ragnar.txt', 'w') as my_file_two:
+            my_file_two.write(finish)
 
 
 except IndexError:

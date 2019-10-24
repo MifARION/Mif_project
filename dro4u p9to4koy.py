@@ -1,33 +1,68 @@
 
 try:
-    alphabet = "abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz" \
-               "ABCDEFGHIJKLMNOPQRSTUVWXYZABCDEFGHIJKLMNOPQRSTUVWXYZ" \
-               "12345678901234567890 "
-    encrypt = input("Enter somethings: ")
-    key = int(input("Enter a key (number from 1-25): "))
-
-    result = ""
-
-    if key == 0:
-        print("oh no, this is 0... Try again!")
-    elif key < 0:
-        print("dude...although, mb you will be satisfied.")
-
-        for letter in encrypt:
-            position = alphabet.find(letter)
-            position_key = position + key
-            if letter in alphabet:
-                result = result + alphabet[position_key]
+    def cipher(key, text):
+        if key > 26:
+            key = key % 26
+        caesar = ''
+        for i in text:
+            if ord('a') <= ord(i) <= ord('z'):
+                if ord(i) + key > ord('z'):
+                    caesar = caesar + chr((ord(i) + key) - 26)
+                else:
+                    caesar = caesar + chr(ord(i) + key)
+            elif ord('A') <= ord(i) <= ord('Z'):
+                if ord(i) + key > ord('Z'):
+                    caesar = caesar + chr((ord(i) + key) - 26)
+                else:
+                    caesar = caesar + chr(ord(i) + key)
             else:
-                result = result + letter
-                print(f" You result {result}")
+                caesar = caesar + i
+        return caesar
+
+
+    def dec(key, text):        #дешифратор
+        if key > 26:
+            key = key % 26
+        caesar = ''
+        for i in text:
+            if ord('a') <= ord(i) <= ord('z'):
+                if ord(i) - key < ord('a'):
+                    caesar = caesar + chr((ord(i) - key) + 26)
+                else:
+                    caesar = caesar + chr(ord(i) - key)
+            elif ord('A') <= ord(i) <= ord('Z'):
+                if ord(i) - key < ord('A'):
+                    caesar = caesar + chr((ord(i) - key) + 26)
+                else:
+                    caesar = caesar + chr(ord(i) - key)
+            else:
+                caesar = caesar + i
+        return caesar
+
+    with open('godofwar.txt', 'r') as my_file:
+        data = ''.join(i for i in my_file.read())
+        finish = dec(3, data)
+        print(finish)
+        with open('ragnar.txt', 'w') as my_file_two:
+            my_file_two.write(finish)
+
+
+    key = input("Введите ключ - ")
+    text = input("Введите текст - ")
+
+    print(cipher(int(key), text))
+
+
 
 except IndexError:
     print("Please enter number from 1-25! Try again")
 except ValueError:
     print("Enter only letters. Try again!")
-    # else:
-    #     print("FOR THE HORDE!!!")
+except:
+    print("Try again")
+
+
+
 
 
 
