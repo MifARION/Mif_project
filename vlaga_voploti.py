@@ -1,30 +1,79 @@
-def get_cipherletter(new_key, letter):
-    #still need alpha to find letters
-    alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+from pip._vendor.distlib.compat import raw_input
 
-    if letter in alpha:
-        return alpha[new_key]
+
+def main():
+    totalBudget = 4000
+    choice = 0
+    while choice != '5':
+        print('Menu Selection')
+        print(' 1 = Add an Expense')
+        print(' 2 = Remove an Expense')
+        print(' 3 = Add Revenue')
+        print(' 4 = Remove Revenue')
+        print(' 5 = Exit')
+        choice = raw_input('Enter your selection:')
+        if choice == '1':
+            totalBudget = addExpense(totalBudget)
+        elif choice == '2':
+            totalBudget = removeExpense(totalBudget)
+        elif choice == '3':
+            totalBudget = addRevenue(totalBudget)
+        elif choice == '4':
+            totalBudget = removeRevenue(totalBudget)
+        elif choice == '5':
+            print('Goodbye!')
+        else:
+            print('***Invalid entry! Please enter 1-5***')
+
+
+# Add expense module
+def addExpense(totalBudget):
+    bill = int(raw_input('Enter the Expense amount:'))
+    manyBill = int(raw_input('Enter the frequency of the Expense per month:'))
+    totalBill = bill * manyBill
+    totalBudget = totalBudget - totalBill
+    checkBudget(totalBudget)
+    return totalBudget
+
+
+# Remove expense module
+def removeExpense(totalBudget):
+    lessBill = int(raw_input('Enter the amount to remove:'))
+    manyLess = int(raw_input('Enter the frequency of the Expense Removal per month:'))
+    totalLess = lessBill * manyLess
+    if totalLess <= (totalBudget):
+        totalBudget = totalBudget + totalLess
+        checkBudget(totalBudget)
+
     else:
-        return letter
+        print('*ERROR* re-check the amounts entered')
+        return totalBudget
 
-def encrypt(key, message):
-    message = mesage.upper()
-    alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    result = ""
 
-    for letter in message:
-        new_key = (alpha.find(letter) + key) % len(alpha)
-        result = result + get_cipherletter(new_key, letter)
+# Add Revenue module
+def addRevenue(totalBudget):
+    income = int(raw_input('Enter the amount of additional income:'))
+    totalBudget = totalBudget + income
+    checkBudget(totalBudget)
+    return totalBudget
 
-    return result
 
-def decrypt(key, message):
-    message = mesage.upper()
-    alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    result = ""
+# Remove revenue module
+def removeRevenue(totalBudget):
+    lossincome = int(raw_input('Enter the amount of income to be removed:'))
+    totalBudget = totalBudget - lossincome
+    checkBudget(totalBudget)
+    return totalBudget
 
-    for letter in message:
-        new_key = (alpha.find(letter) - key) % len(alpha)
-        result = result + get_cipherletter(new_key, letter)
 
-    return result
+# Checks and reports balance
+def checkBudget(totalBudget):
+    if totalBudget >= (0):
+        print('The remaining budget is: ', totalBudget)
+    else:
+        print('You have exceeded the monthly budget')
+        print('Re-evaluate your expenses and balance the budget')
+        print('Current balance:', totalBudget)
+
+
+main()
